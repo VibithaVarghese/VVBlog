@@ -1,4 +1,6 @@
 const blogData = require("./data/blogData.json");
+const comments = require("./data/comments.json");
+
 
 const { MongoClient } = require("mongodb");
 
@@ -13,6 +15,8 @@ const options = {
 
 const batchImport = async () => {
 
+    console.log(comments);
+
     //creates a new client
     const client = new MongoClient(MONGO_URI, options);
 
@@ -25,16 +29,23 @@ const batchImport = async () => {
         const db = client.db("BlogData");
 
         const blogDataInDB = await db.collection("data").find().toArray();
-        
+        const commentsInDB = await db.collection("comments").find().toArray();
 
-        /*
-        If the flights does not exist then add the flight reservation to the database
-        Since we are checking that length is zero the flights will be added only once.
-        */
+       
         if(blogDataInDB.length === 0) {
             const result = await db.collection("data").insertMany(blogData)
             .then((result) => {
                 console.log(result);            
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+        
+        if(commentsInDB.length === 0) {
+            const resultComments = await db.collection("comments").insertMany(comments)
+            .then((resultComments) => {
+                console.log(resultComments);            
             }).catch((err) => {
                 console.log(err);
             });
