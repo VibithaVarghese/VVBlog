@@ -21,14 +21,16 @@ const {
     getBlogData,
     getCommentsData,
     createComment,
+    updateComment,
+    deleteComment,
 } = require("./handlers");
 
 app.get("/api/get-blogData", getBlogData)
 app.get("/api/get-CommentsData", getCommentsData)
 app.post("/api/authenticate", authenticateUser)
 app.post("/api/add-comment", createComment)
-app.patch("/api/update-comments/:CommentID", )
-app.delete("/api/delete-comments/:CommentID", )
+app.patch("/api/update-comments/:commentID", updateComment)
+app.delete("/api/delete-comments/:commentID", deleteComment)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

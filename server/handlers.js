@@ -125,31 +125,39 @@ try{
 
 // updates an existing reservation
 const updateComment = async (req, res) => {
-    try{
+
     
         //get Id
-        let commentId = req.params.reservation;
+        let commentId = req.params.commentID;
 
-        let data = req.body;
+        // let data = req.body;
 
-        console.log(reservationId);
+        let data = {
+            "name": "SomeOneFunnyMoreFunny",
+            "date": "February 12, 2021 at 12:31 pm",
+            "replyName": "SomeOne Moreeeee funny",
+            "reply": "You are welcome again and again"
+          }
+        console.log(data);
+
+        console.log(commentId);
 
         //creates a new client
         const client = new MongoClient(MONGO_URI, options);
 
         // connect to the client
         await client.connect();
-
+        try{
         // connect to the database (db name is provided as an argument to the function)
-        const db = client.db("SlingAir");
+        const db = client.db("BlogData");
         console.log("connected!");
 
-        const query = { id: reservationId };
+        const query = { id: commentId };
         const newValues = { $set: { ...data } };
 
         console.log(query, newValues);
 
-        await db.collection("reservations").updateOne(query, newValues)
+        await db.collection("comments").updateOne(query, newValues)
         .then((result) => {
             console.log(result);                   
         }).catch((err) => {
@@ -168,6 +176,42 @@ const updateComment = async (req, res) => {
     console.log("disconnected!");
 };
 
+// deletes a specified comment
+const deleteComment = async (req, res) => {
+        
+    //get Id
+    let commentId = req.params.commentID;
+
+
+    console.log(commentId);
+
+    //creates a new client
+    const client = new MongoClient(MONGO_URI, options);
+
+    // connect to the client
+    await client.connect();
+
+    try {
+    
+        // connect to the database (db name is provided as an argument to the function)
+        const db = client.db("BlogData");
+        console.log("connected!");
+        
+        const result = await db.collection("comments").deleteOne({"id":commentId});
+        console.log(result);
+        res.status(204).json({ status: 204 });
+       
+
+        } catch (err) {
+            console.log(err.stack);
+    
+}
+
+ // close the connection to the database server
+ client.close();
+ console.log("disconnected!");
+};
+
 
 
 
@@ -176,4 +220,5 @@ module.exports = {
     getCommentsData,
     createComment,  
     updateComment, 
+    deleteComment,
 };
