@@ -1,8 +1,14 @@
+import Map from "./components/Map";
+import GlobalStyles from "./GlobalStyles";
 
 
 const App = () => {
   return (
-    <div>The react app is live</div>
+    <>
+    <GlobalStyles></GlobalStyles>
+      <div>The react app is live</div>
+      <Map></Map>
+    </>
   );
 }
 

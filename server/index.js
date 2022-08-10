@@ -9,9 +9,26 @@ const {
 // call the batch import function to import the blogData from the blog.
 batchImport();
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+// import the user data load from the user authentication file
+const {
+    loadUserToDB,
+    authenticateUser,
+} = require("./UserAuthentication")
+// call the load user DB function to load the user to mongo DB
+loadUserToDB();
+
+const {
+    getBlogData,
+    getCommentsData,
+    createComment,
+} = require("./handlers");
+
+app.get("/api/get-blogData", getBlogData)
+app.get("/api/get-CommentsData", getCommentsData)
+app.post("/api/authenticate", authenticateUser)
+app.post("/api/add-comment", createComment)
+app.patch("/api/update-comments/:CommentID", )
+app.delete("/api/delete-comments/:CommentID", )
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
