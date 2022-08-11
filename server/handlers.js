@@ -75,14 +75,9 @@ const getBlogData = async (req, res) => {
 
 const createComment = async (req, res) => {
 
-    // let data = req.body;
+    let data = req.body;
 
-    let data = {
-        "name": "SomeOnemoreFunny",
-        "date": "February 12, 2020 at 12:31 pm",
-        "replyName": "SomeOne More funny than me",
-        "reply": "You are welcome again"
-      }
+    
         let id = uuidv4();
 
         console.log(id);

@@ -101,6 +101,26 @@ export const BlogProvider = ({children}) => {
         });
     };
 
+    const handlePostSubmit = (ev) => {
+        ev.preventDefault();
+        fetch("/api/add-comment", {
+            method: "POST",        
+            headers: {            
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(state.newComment),
+            })
+            .then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                // once the new comment updated fetch it and update the GUI
+                getBlogComments();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
     // handle the username & pwd submit button
     const handleClick = (ev) => {
         ev.preventDefault();
@@ -207,7 +227,8 @@ export const BlogProvider = ({children}) => {
             clearLogin, 
             getBlogData, 
             getBlogComments,
-            handleCommentPost, 
+            handleCommentPost,
+            handlePostSubmit, 
             }}}>
             {children}
         </BlogContext.Provider>
