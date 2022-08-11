@@ -229,6 +229,8 @@ export const BlogProvider = ({children}) => {
             getBlogComments,
             handleCommentPost,
             handlePostSubmit, 
+            handleReplyClick, 
+            handleDeleteClick,
             }}}>
             {children}
         </BlogContext.Provider>

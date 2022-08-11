@@ -18,8 +18,8 @@ const BlogComments = () => {
                             <p>{indBlogComments.comment}</p>
                             <p>{indBlogComments.replyName}</p>
                             <p>{indBlogComments.reply}</p>
-                            {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev.target.value, indBlogComments.id)}></input>}
-                            {loggedIn && <input type="button" value="delete" onClick={(ev) => handleDeleteClick(ev.target.value, indBlogComments.id)}></input>}
+                            {loggedIn && <input type="button" value="reply" onClick={() => handleReplyClick(indBlogComments.id)}></input>}
+                            {loggedIn && <input type="button" value="delete" onClick={() => handleDeleteClick(indBlogComments.id)}></input>}
                         </>
                     )
                 })} 
