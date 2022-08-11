@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Login from './components/Login';
 import GlobalStyles from './GlobalStyles';
 import { BlogProvider } from './components/BlogContext';
+import LogOut from './components/LogOut';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
             <Routes>            
                 <Route path="/" element={<App />} />
                 <Route path="/Login" element={<Login />} />
+                <Route path="/LogOut" element={<LogOut />} />
             </Routes>
         </BrowserRouter>
     </BlogProvider>

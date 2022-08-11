@@ -56,11 +56,9 @@ const loadUserToDB = () => {
 
 const authenticateUser = async (req, res) => {
     console.log('inside the post',req.body);
-    // let user = req.body.user;
-    // let pwd = req.body.pwd;
 
-    let userFromFrontEnd = "admin";
-    let pwdFromFrontEnd = "GODilu!2"
+    let userFromFrontEnd = req.body.user;
+    let pwdFromFrontEnd = req.body.pwd;
     let userInDB;
     let pwdInDB;
 

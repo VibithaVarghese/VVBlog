@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 8000;
 
+app.use(express.json());
+
 // import the batch import function from the batch import file.
 const {
     batchImport,
