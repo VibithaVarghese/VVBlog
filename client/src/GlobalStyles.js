@@ -62,7 +62,7 @@ h2,
 h3,
 label,
 button {
-  color: #fff;
+  
   font-family: var(--font-heading);
   font-size: 32px;
   text-align: center;

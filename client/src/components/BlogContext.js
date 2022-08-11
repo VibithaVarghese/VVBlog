@@ -5,6 +5,7 @@ export const BlogContext = createContext(null);
 const initialState = {
     blogData: null,
     blogComments: null,
+    newComment: null,
     user: null,
     loggedIn: false,
     loginFailure: "",
@@ -23,6 +24,17 @@ const reducer = (state, action) => {
             user: {...state.user, [name]: value,}
         })
         }  
+
+        /*
+             "replyName": "SomeOne More funny",
+                "reply": "You are welcome"
+        */
+        case "create_comment": {
+            return ( {
+                ...state,
+                newComment: { ...state.newComment, [action.name]: action.value, date: action.date, replyName:"", reply: "" }
+            })
+        }
 
         // when the login is successful change the state variable to true
         case "login_sucess": {
@@ -162,9 +174,41 @@ export const BlogProvider = ({children}) => {
         });   
     }
 
+    const handleCommentPost = (value, name) => {
+        /*
+        form the comment structre as given below:
+            {
+                "id": "1",
+                "name": "SomeOneFunny",
+                "date": "February 12, 2020 at 12:31 pm",
+                "comment": "you helped me a lot with my issues",
+                "replyName": "SomeOne More funny",
+                "reply": "You are welcome"
+            }
+        */
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time;
+            
+            dispatch({
+                type: "create_comment",
+                value: value,
+                date: dateTime,
+                name: name,
+            })
+    }
+
 
     return (
-        <BlogContext.Provider value={{state, actions: { handleUserChange, handleClick, clearLogin, getBlogData, getBlogComments }}}>
+        <BlogContext.Provider value={{state, actions: { 
+            handleUserChange, 
+            handleClick, 
+            clearLogin, 
+            getBlogData, 
+            getBlogComments,
+            handleCommentPost, 
+            }}}>
             {children}
         </BlogContext.Provider>
     )
