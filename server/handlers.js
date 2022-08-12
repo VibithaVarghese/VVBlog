@@ -92,7 +92,6 @@ const createComment = async (req, res) => {
     await client.connect();
 try{
     // console.log(req.body);
-   
     // connect to the database (db name is provided as an argument to the function)
     const db = client.db("BlogData");
     console.log("connected!");
