@@ -21,7 +21,7 @@ const BlogComments = () => {
                 { blogComments.map((indBlogComments) => {
                     return (
                         <InnerInnerDiv>                            
-                            <p>{indBlogComments.name}</p>
+                            <CommentsName>{indBlogComments.name}</CommentsName>
                             <p>{indBlogComments.date}</p>
                             <p>{indBlogComments.comment}</p>
                             {indBlogComments.replyName !== "" && <p>{indBlogComments.replyName}</p>}
@@ -77,6 +77,11 @@ const InnerInnerDiv = styled.div`
     > * {
         padding-bottom: 15px;
     }
+`
+
+const CommentsName = styled.p`
+font-weight: bold;
+    padding-top: 15px;
 `
 
 
