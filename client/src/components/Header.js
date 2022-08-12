@@ -12,7 +12,7 @@ const Header = () => {
         <Span>V V</Span>
             <nav>
                 <StledLink to="/">Home</StledLink>
-                {!loggedIn? <StledLink to="/Login">Login</StledLink>: <StledLink to="/LogOut">LogOut</StledLink>}            
+                {!loggedIn? <StledLink to="/Login">Login</StledLink>: <StledLink to="/LogOut">Logout</StledLink>}            
             </nav>
         </HeaderWrapper>
     )
