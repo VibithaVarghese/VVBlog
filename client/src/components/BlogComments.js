@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import styled from "styled-components";
 import { BlogContext } from "./BlogContext";
 
 const BlogComments = () => {
@@ -14,17 +15,17 @@ const BlogComments = () => {
 
 
     return (
-        <>
-            <div>
+        <OuterDiv>
+            <div><PageHeading>Comments</PageHeading></div>
+            <InnerDiv>
                 { blogComments.map((indBlogComments) => {
                     return (
-                        <>
-                            <p>{indBlogComments.id}</p>
+                        <InnerInnerDiv>                            
                             <p>{indBlogComments.name}</p>
                             <p>{indBlogComments.date}</p>
                             <p>{indBlogComments.comment}</p>
-                            <p>{indBlogComments.replyName}</p>
-                            <p>{indBlogComments.reply}</p>
+                            {indBlogComments.replyName !== "" && <p>{indBlogComments.replyName}</p>}
+                            {indBlogComments.reply !== "" && <p>{indBlogComments.reply}</p>}
                             {loggedIn && <input type="textarea" 
                             name="textAreaForReply"
                             onChange={(ev) => handleReplyTextArea(
@@ -37,10 +38,10 @@ const BlogComments = () => {
                             />}
                             {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev,indBlogComments.id)}></input>}
                             {loggedIn && <input type="button" value="delete" onClick={(ev) => handleDeleteClick(ev, indBlogComments.id)}></input>}
-                        </>
+                        </InnerInnerDiv>
                     )
                 })} 
-            </div>
+            </InnerDiv>
             <div>
                 <label>Enter value : </label>
                 <input type="textarea" 
@@ -51,8 +52,32 @@ const BlogComments = () => {
                 <input type="text" name="name" onChange={(ev) => handleCommentPost(ev.target.value, "name")}></input>
                 <input type="submit" value="Submit" onClick={handlePostSubmit}></input>
             </div>
-        </>
+        </OuterDiv>
     )
 }
+
+const OuterDiv = styled.div`
+    width: 50vw;
+    height: auto;
+    padding: 25px;
+
+    border-radius: 25px;
+    margin: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+`
+const PageHeading = styled.p`
+    font-size: 25px;
+    padding-bottom: var(--pading-between-text);
+`
+
+const InnerDiv = styled.div`
+`
+
+const InnerInnerDiv = styled.div`
+    > * {
+        padding-bottom: 15px;
+    }
+`
+
 
 export default BlogComments;

@@ -3,11 +3,13 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
   :root {
     --color-blue: #0000FF;
+    --color-lightblue: #7EC8E3;
     --color-desert-sand: #E3C4A6;
     --font-heading: 'Permanent Marker', Arial, Helvetica, sans-serif;
     --font-body: 'Kosugi', Arial, Helvetica, sans-serif;
+    --pading-between-text: 25px;
     --padding-page: 50px;
-    --padding-between: 100px;
+    --padding-between: 100px;    
   }
 
   /* http://meyerweb.com/eric/tools/css/reset/
@@ -62,7 +64,7 @@ label,
 button {
   
   font-family: var(--font-heading);
-  font-size: 32px;
+  
   text-align: center;
 }
 p,
@@ -73,13 +75,13 @@ input {
   font-family: var(--font-body);
 }
 .map-container {
-width: 30vw;
+width: auto;
 height: 30vh;
 }
 
   input {
-    font-size: 24px;
-    height: 42px;
+    
+    
     border: 2px solid var(--color-blue);
     border-radius: 4px;
     padding: 0 12px;
