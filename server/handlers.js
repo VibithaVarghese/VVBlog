@@ -124,14 +124,9 @@ const updateComment = async (req, res) => {
         //get Id
         let commentId = req.params.commentID;
 
-        // let data = req.body;
+        let data = req.body;
 
-        let data = {
-            "name": "SomeOneFunnyMoreFunny",
-            "date": "February 12, 2021 at 12:31 pm",
-            "replyName": "SomeOne Moreeeee funny",
-            "reply": "You are welcome again and again"
-          }
+       
         console.log(data);
 
         console.log(commentId);
@@ -193,7 +188,7 @@ const deleteComment = async (req, res) => {
         
         const result = await db.collection("comments").deleteOne({"id":commentId});
         console.log(result);
-        res.status(204).json({ status: 204 });
+        res.status(200).json({status:200, data: commentId});
        
 
         } catch (err) {

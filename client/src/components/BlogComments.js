@@ -3,7 +3,14 @@ import { BlogContext } from "./BlogContext";
 
 const BlogComments = () => {
 
-    const { state: { loggedIn, blogComments }, actions:{handleCommentPost, handlePostSubmit, handleReplyClick, handleDeleteClick}} = useContext(BlogContext);
+    const { state: { loggedIn, blogComments }, actions:
+    {
+        handleCommentPost, 
+        handlePostSubmit, 
+        handleReplyClick, 
+        handleDeleteClick,
+        handleReplyTextArea,
+    }} = useContext(BlogContext);
 
 
     return (
@@ -18,8 +25,18 @@ const BlogComments = () => {
                             <p>{indBlogComments.comment}</p>
                             <p>{indBlogComments.replyName}</p>
                             <p>{indBlogComments.reply}</p>
-                            {loggedIn && <input type="button" value="reply" onClick={() => handleReplyClick(indBlogComments.id)}></input>}
-                            {loggedIn && <input type="button" value="delete" onClick={() => handleDeleteClick(indBlogComments.id)}></input>}
+                            {loggedIn && <input type="textarea" 
+                            name="textAreaForReply"
+                            onChange={(ev) => handleReplyTextArea(
+                                ev.target.value,                                  
+                                indBlogComments.id, 
+                                indBlogComments.name, 
+                                indBlogComments.date,
+                                indBlogComments.comment
+                                )}
+                            />}
+                            {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev,indBlogComments.id)}></input>}
+                            {loggedIn && <input type="button" value="delete" onClick={(ev) => handleDeleteClick(ev, indBlogComments.id)}></input>}
                         </>
                     )
                 })} 

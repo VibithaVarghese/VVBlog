@@ -6,6 +6,7 @@ const initialState = {
     blogData: null,
     blogComments: null,
     newComment: null,
+    replyComment: null,
     user: null,
     loggedIn: false,
     loginFailure: "",
@@ -76,6 +77,20 @@ const reducer = (state, action) => {
                 blogComments: action.value,
             })
 
+        }
+
+        /* value:value,
+        id:id,
+        name: name,
+        date: date,
+        comment: comment,
+        */
+        case "reply_comment_text_area_change": {
+            console.log(action);
+            return({
+                ...state,
+                replyComment: { ...state.replyComment,id:action.id, reply: action.value, date: action.date, replyName:"admin", comment:action.comment }
+            })
         }
 
         default: {
@@ -218,6 +233,55 @@ export const BlogProvider = ({children}) => {
                 name: name,
             })
     }
+    // value, "reply", indBlogComments.id
+
+    const handleReplyTextArea = (value, id, name, date, comment) => {
+       dispatch({
+            type: "reply_comment_text_area_change",
+            value:value,
+            id:id,
+            name: name,
+            date: date,
+            comment: comment,
+        })
+    }
+
+    const handleReplyClick = ( ev, id ) => {
+        ev.preventDefault();
+        fetch(`/api/update-comments/${id}`, {
+            method: "PATCH",        
+            headers: {            
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(state.replyComment),
+            })
+            .then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                // once the new comment updated fetch it and update the GUI
+                getBlogComments();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    const handleDeleteClick = (ev, id) => {
+        ev.preventDefault();
+        fetch(`/api/delete-comments/${id}`, {
+            method: 'DELETE',
+          })
+          .then(res => res.json()) 
+          .then((json) => {
+            console.log(json);
+            // once the new comment updated fetch it and update the GUI
+            getBlogComments();
+            })
+          .catch((error) => {
+            console.log("I got an error", error);
+          })
+    }
 
 
     return (
@@ -231,6 +295,7 @@ export const BlogProvider = ({children}) => {
             handlePostSubmit, 
             handleReplyClick, 
             handleDeleteClick,
+            handleReplyTextArea,   
             }}}>
             {children}
         </BlogContext.Provider>
