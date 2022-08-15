@@ -4,7 +4,7 @@ import { BlogContext } from "./BlogContext";
 
 const BlogComments = () => {
 
-    const { state: { loggedIn, blogComments }, actions:
+    const { itemsRef, postName, textInput, state: { loggedIn, blogComments }, actions:
     {
         handleCommentPost, 
         handlePostSubmit, 
@@ -18,27 +18,30 @@ const BlogComments = () => {
         <OuterDiv>
             <div><PageHeading>Comments</PageHeading></div>
             <InnerDiv>
-                { blogComments.map((indBlogComments) => {
+                { blogComments.map((indBlogComments, index) => {
                     return (
                         <InnerInnerDiv>                            
                             <CommentsName>{indBlogComments.name}</CommentsName>
                             <p>{indBlogComments.date}</p>
                             <p>{indBlogComments.comment}</p>
-                            {indBlogComments.replyName !== "" && <p>{indBlogComments.replyName}</p>}
+                            <ReplyDiv>
+                            {indBlogComments.replyName !== "" && <p className="replyName">{indBlogComments.replyName}</p>}
                             {indBlogComments.reply !== "" && <p>{indBlogComments.reply}</p>}
+                            </ReplyDiv>
                             {loggedIn && <input type="textarea" 
                             name="textAreaForReply"
                             className="textarea"
+                            ref={el => itemsRef.current[index] = el}
                             onChange={(ev) => handleReplyTextArea(
                                 ev.target.value,                                  
                                 indBlogComments.id, 
                                 indBlogComments.name, 
                                 indBlogComments.date,
-                                indBlogComments.comment
+                                indBlogComments.comment,                                
                                 )}
                             />}
                             <ReplyDeleteDiv>
-                            {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev,indBlogComments.id)}></input>}
+                            {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev,indBlogComments.id, index)}></input>}
                             {loggedIn && <input type="button" value="delete" onClick={(ev) => handleDeleteClick(ev, indBlogComments.id)}></input>}
                             </ReplyDeleteDiv>
                         </InnerInnerDiv>
@@ -46,17 +49,20 @@ const BlogComments = () => {
                 })} 
             </InnerDiv>
             <TextAreaDiv>
+                <div><PageHeading>Post Comment</PageHeading></div>
                 <div>
                 <label>Enter new Comment : </label>
                 <input type="textarea" 
                 name="textValue"
+                id="postTextArea"
                 className="textarea"
+                ref={textInput}
                 onChange={(ev) => handleCommentPost(ev.target.value, "comment")}
                 />
                 </div>
                 <label>name: </label>
                 <NameDiv>
-                    <input type="text" name="name" className="nameInput" onChange={(ev) => handleCommentPost(ev.target.value, "name")}></input>
+                    <input type="text" name="name" ref={postName} id="postName" className="nameInput" onChange={(ev) => handleCommentPost(ev.target.value, "name")}></input>
                 </NameDiv>
                 <div>
                     <input type="submit" value="Submit" onClick={handlePostSubmit}></input>
@@ -137,6 +143,17 @@ const NameDiv = styled.div`
         border-radius: 4px;
         background-color: #f8f8f8;
         font-size: 16px;
+    }
+`
+
+const ReplyDiv = styled.div`
+margin-left: 35px;
+    > * {
+        padding-bottom: 15px;
+    }
+
+    & .replyName {
+        font-weight: bold;
     }
 `
 

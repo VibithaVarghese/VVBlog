@@ -13,7 +13,7 @@ const Map = ({lat, lng}) => {
     if(!isLoaded) return <div>Loading...</div>
     return (
         <div>
-            <GoogleMap zoom={10} center={{lat: lat, lng: lng}} mapContainerClassName="map-container">
+            <GoogleMap zoom={16} center={{lat: lat, lng: lng}} mapContainerClassName="map-container">
                 <Marker position={{lat: lat, lng: lng}}></Marker>
             </GoogleMap>
         </div>

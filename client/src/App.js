@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import Blog from "./components/Blog";
 import BlogComments from "./components/BlogComments";
+import CircularProgress from '@mui/material/CircularProgress';
 import { BlogContext } from "./components/BlogContext";
 
 
@@ -15,9 +16,9 @@ const App = () => {
   
   return (
     <Wrapper>
-      {blogData === null && <div>Loading...</div>}
+      {blogData === null && <div><CircularProgress></CircularProgress></div>}
       {blogData !== null && <Blog></Blog>}
-      {blogComments === null && <div>Loading...</div>}
+      {blogComments === null && <div><CircularProgress></CircularProgress></div>}
       {blogComments !== null && <BlogComments></BlogComments>}
     </Wrapper>
   );

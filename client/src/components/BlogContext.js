@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { createContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 export const BlogContext = createContext(null);
@@ -106,6 +107,13 @@ export const BlogProvider = ({children}) => {
 
     // create a reducer
     const [state, dispatch] = useReducer(reducer, initialState);
+    const textInput = useRef();
+    const postName = useRef();
+    const replyText = useRef();
+    const loginUser = useRef();
+    const loginPwd = useRef();
+    const itemsRef = useRef([]);
+    
     
     // function that handle the change in the user login inputs
     const handleUserChange = (value, name) => {
@@ -117,7 +125,13 @@ export const BlogProvider = ({children}) => {
     };
 
     const handlePostSubmit = (ev) => {
-        // ev.preventDefault();
+         ev.preventDefault();
+         // postTextArea, Select the text area and clear it after the submit.
+
+         textInput.current.value = "";        
+
+         postName.current.value = "";
+
         fetch("/api/add-comment", {
             method: "POST",        
             headers: {            
@@ -140,6 +154,9 @@ export const BlogProvider = ({children}) => {
     const handleClick = (ev) => {
         ev.preventDefault();
         console.log(state.user);
+
+        loginUser.current.value = "";
+        loginPwd.current.value = "";
                 
         fetch("/api/authenticate", {
         method: "POST",        
@@ -246,8 +263,14 @@ export const BlogProvider = ({children}) => {
         })
     }
 
-    const handleReplyClick = ( ev, id ) => {
+    const handleReplyClick = ( ev, id, index ) => {
         ev.preventDefault();
+
+        // clear the text from the text area.
+        itemsRef.current[index].value = "";
+       
+        console.log(`this is reply text area`,itemsRef.current[index]);
+
         fetch(`/api/update-comments/${id}`, {
             method: "PATCH",        
             headers: {            
@@ -285,7 +308,7 @@ export const BlogProvider = ({children}) => {
 
 
     return (
-        <BlogContext.Provider value={{state, actions: { 
+        <BlogContext.Provider value={{loginUser, loginPwd, itemsRef, textInput,postName, state, actions: { 
             handleUserChange, 
             handleClick, 
             clearLogin, 
