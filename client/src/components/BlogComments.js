@@ -28,6 +28,7 @@ const BlogComments = () => {
                             {indBlogComments.reply !== "" && <p>{indBlogComments.reply}</p>}
                             {loggedIn && <input type="textarea" 
                             name="textAreaForReply"
+                            className="textarea"
                             onChange={(ev) => handleReplyTextArea(
                                 ev.target.value,                                  
                                 indBlogComments.id, 
@@ -36,22 +37,31 @@ const BlogComments = () => {
                                 indBlogComments.comment
                                 )}
                             />}
+                            <ReplyDeleteDiv>
                             {loggedIn && <input type="button" value="reply" onClick={(ev) => handleReplyClick(ev,indBlogComments.id)}></input>}
                             {loggedIn && <input type="button" value="delete" onClick={(ev) => handleDeleteClick(ev, indBlogComments.id)}></input>}
+                            </ReplyDeleteDiv>
                         </InnerInnerDiv>
                     )
                 })} 
             </InnerDiv>
-            <div>
-                <label>Enter value : </label>
+            <TextAreaDiv>
+                <div>
+                <label>Enter new Comment : </label>
                 <input type="textarea" 
                 name="textValue"
+                className="textarea"
                 onChange={(ev) => handleCommentPost(ev.target.value, "comment")}
                 />
+                </div>
                 <label>name: </label>
-                <input type="text" name="name" onChange={(ev) => handleCommentPost(ev.target.value, "name")}></input>
-                <input type="submit" value="Submit" onClick={handlePostSubmit}></input>
-            </div>
+                <NameDiv>
+                    <input type="text" name="name" className="nameInput" onChange={(ev) => handleCommentPost(ev.target.value, "name")}></input>
+                </NameDiv>
+                <div>
+                    <input type="submit" value="Submit" onClick={handlePostSubmit}></input>
+                </div>
+            </TextAreaDiv>
         </OuterDiv>
     )
 }
@@ -77,11 +87,57 @@ const InnerInnerDiv = styled.div`
     > * {
         padding-bottom: 15px;
     }
+
+    & .textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid var(--color-lightblue);
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+        resize: none;
+    }
 `
 
 const CommentsName = styled.p`
-font-weight: bold;
+    font-weight: bold;
+    padding-top: 35px;
+`
+
+const ReplyDeleteDiv = styled.div`
     padding-top: 15px;
+`
+const TextAreaDiv = styled.div`
+    > * {
+        padding-bottom: 15px;
+    }
+padding-top: 35px;
+    & .textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid var(--color-lightblue);
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+        resize: none;
+    }
+`
+
+const NameDiv = styled.div`
+    & .nameInput {
+        width: 100%;
+        height: 45px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid var(--color-lightblue);
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+    }
 `
 
 

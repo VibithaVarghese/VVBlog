@@ -82,7 +82,7 @@ height: 30vh;
   input {
     
     
-    border: 2px solid var(--color-blue);
+    border: 2px solid var(--color-lightblue);
     border-radius: 4px;
     padding: 0 12px;
   }

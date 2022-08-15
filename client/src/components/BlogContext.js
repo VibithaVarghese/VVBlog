@@ -117,7 +117,7 @@ export const BlogProvider = ({children}) => {
     };
 
     const handlePostSubmit = (ev) => {
-        ev.preventDefault();
+        // ev.preventDefault();
         fetch("/api/add-comment", {
             method: "POST",        
             headers: {            
