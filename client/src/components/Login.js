@@ -5,7 +5,7 @@ import { BlogContext } from "./BlogContext";
 
 const Login = () => {
 
-    const { loginUser, loginPwd, state: {loggedIn, loginFailure}, actions:{handleUserChange, handleClick}} = useContext(BlogContext);
+    const { loginUser, loginPwd, state: {loggedIn, loginFailure, error }, actions:{handleUserChange, handleClick}} = useContext(BlogContext);
 
 
     useEffect(()=>{
@@ -18,8 +18,11 @@ const Login = () => {
                 <input type="text" ref={loginUser} className="input" name="name" onChange={(ev) => handleUserChange(ev.target.value, "user")}></input>
                 <input type="password" ref={loginPwd} className="input" name="password" onChange={(ev) => handleUserChange(ev.target.value, "pwd")}></input>
                 <input type="submit" value="Submit" onClick={handleClick}></input>
-                {loginFailure && <p>Wrong admin credentials. Please try again</p>}
-                {loggedIn && <p>Successfully LoggedIn</p>}
+                {loginFailure && <ErrorMessage>Wrong admin credentials. Please try again</ErrorMessage>}
+                {loggedIn && <SuccessMessage>Successfully LoggedIn!!!</SuccessMessage>}
+                {error === "User_Pwd_empty" && <ErrorMessage>Enter correct admin user name and password</ErrorMessage>}
+                {error === "User_empty" && <ErrorMessage>Enter correct username</ErrorMessage>}
+                {error === "Pwd_empty" && <ErrorMessage>Enter correct password</ErrorMessage>}
             </InnerDiv>
         </OutterWrapper>
     )
@@ -58,6 +61,14 @@ const InnerDiv = styled.div`
         font-size: 16px;
 
     }
+`
+
+const SuccessMessage = styled.p`
+    color: var(--color-blue);
+`
+
+const ErrorMessage = styled.p`
+    color: red;
 `
 
 export default Login;

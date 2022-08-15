@@ -11,6 +11,7 @@ const initialState = {
     user: null,
     loggedIn: false,
     loginFailure: "",
+    error: "",
 }
 
 const reducer = (state, action) => {
@@ -80,6 +81,48 @@ const reducer = (state, action) => {
 
         }
 
+        case "error_in_post": {
+            return ({
+                ...state,
+                error: "Comment is empty",
+            })
+        }
+
+        case "error_clear": {
+            return ({
+                ...state,
+                error: "",
+            })
+        }
+
+        case "post_name_empty": {
+            return ({
+                ...state,
+                error: "Post name empty",
+            })
+        }
+
+        case "error_in_login": {
+            return ({
+                ...state,
+                error: "User_Pwd_empty"
+            })
+        }
+
+        case "error_in_user": {
+            return ({
+                ...state,
+                error: "User_empty"
+            })
+        }
+
+        case "error_in_pwd": {
+            return ({
+                ...state,
+                error: "Pwd_empty"
+            })
+        }
+
         /* value:value,
         id:id,
         name: name,
@@ -128,26 +171,46 @@ export const BlogProvider = ({children}) => {
          ev.preventDefault();
          // postTextArea, Select the text area and clear it after the submit.
 
-         textInput.current.value = "";        
+         
+
+         if(state.newComment === null) {
+            dispatch({
+                type: "error_in_post",
+            })
+         }else if(state.newComment.name === undefined) {
+            dispatch({
+                type: "post_name_empty",
+            })
+         } else {
+
+            dispatch({
+                type: "error_clear",
+            })
+
+            textInput.current.value = "";        
 
          postName.current.value = "";
 
-        fetch("/api/add-comment", {
-            method: "POST",        
-            headers: {            
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(state.newComment),
-            })
-            .then((res) => res.json())
-            .then((json) => {
-                console.log(json);
-                // once the new comment updated fetch it and update the GUI
-                getBlogComments();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            fetch("/api/add-comment", {
+                method: "POST",        
+                headers: {            
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(state.newComment),
+                })
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json);
+                    // once the new comment updated fetch it and update the GUI
+                    getBlogComments();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+         }
+
+        
     }
 
     // handle the username & pwd submit button
@@ -155,43 +218,68 @@ export const BlogProvider = ({children}) => {
         ev.preventDefault();
         console.log(state.user);
 
-        loginUser.current.value = "";
-        loginPwd.current.value = "";
-                
-        fetch("/api/authenticate", {
-        method: "POST",        
-        headers: {            
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(state.user),
-        })
-        .then((res) => res.json())
-        .then((json) => {
-            console.log(json);
-            /*
-            Data is coming back in the following format if the login is successful
-                data: "loggedIn"
-                status: 200
-                
-            Data is coming in the following format if the login is not successful
-                data: "Not loggedIn"
-                status: 200
-            */
-            if(json.data === "loggedIn") {
-                dispatch({
-                    type: "login_sucess",
-                });
-                
-            } else {
-                dispatch({
-                    type: "login_failed",
-                });
-            }
+        
 
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-          });
+        if(state.user === null) {
+            dispatch({
+                type: "error_in_login",
+            })
+        } else if(state.user.user === undefined) {
+            dispatch({
+                type: "error_in_user",
+            })
+
+        } else if(state.user.pwd === undefined) {
+            dispatch({
+                type: "error_in_pwd",
+            })
+
+        } else {
+            
+            loginUser.current.value = "";
+        loginPwd.current.value = "";
+
+            dispatch({
+                type: "error_clear",
+            })
+
+            fetch("/api/authenticate", {
+                method: "POST",        
+                headers: {            
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(state.user),
+                })
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json);
+                    /*
+                    Data is coming back in the following format if the login is successful
+                        data: "loggedIn"
+                        status: 200
+                        
+                    Data is coming in the following format if the login is not successful
+                        data: "Not loggedIn"
+                        status: 200
+                    */
+                    if(json.data === "loggedIn") {
+                        dispatch({
+                            type: "login_sucess",
+                        });
+                        
+                    } else {
+                        dispatch({
+                            type: "login_failed",
+                        });
+                    }
+        
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                  });
+        }
+                
+        
     };
 
     // on loading the logout page, clear the login information

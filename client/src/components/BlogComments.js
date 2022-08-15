@@ -4,7 +4,7 @@ import { BlogContext } from "./BlogContext";
 
 const BlogComments = () => {
 
-    const { itemsRef, postName, textInput, state: { loggedIn, blogComments }, actions:
+    const { itemsRef, postName, textInput, state: { loggedIn, blogComments, error }, actions:
     {
         handleCommentPost, 
         handlePostSubmit, 
@@ -66,6 +66,10 @@ const BlogComments = () => {
                 </NameDiv>
                 <div>
                     <input type="submit" value="Submit" onClick={handlePostSubmit}></input>
+                </div>
+                <div>
+                    {error === "Comment is empty" && <ErrorMessage>Please enter a comment in the comment field</ErrorMessage>}
+                    {error === "Post name empty" && <ErrorMessage>Please enter a name in the name input field</ErrorMessage>}
                 </div>
             </TextAreaDiv>
         </OuterDiv>
@@ -155,6 +159,10 @@ margin-left: 35px;
     & .replyName {
         font-weight: bold;
     }
+`
+
+const ErrorMessage = styled.p`
+    color: red;
 `
 
 
