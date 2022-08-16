@@ -4,12 +4,15 @@ import { BlogContext } from "./BlogContext";
 
 const LogOut = () => {
 
+    //  When the user enters the logout page then clear the login.
+
     const { actions:{clearLogin}} = useContext(BlogContext);
 
     useEffect(()=>{
         clearLogin();        
     },[]);
 
+    // Log out page reders and log out message.
     return (
         <OuterDiv>
         <InnerDiv>Admin user is successfully loggedout!!!</InnerDiv>

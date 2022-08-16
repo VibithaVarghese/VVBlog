@@ -12,6 +12,8 @@ import LogOut from './components/LogOut';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BlogProvider>
+        {/* switch between login / logout/ home page.
+        Add a header page too. */}
         <BrowserRouter>
             <GlobalStyles></GlobalStyles>
             <Header></Header>

@@ -5,8 +5,10 @@ import styled from "styled-components"
 const { Link } = require("react-router-dom")
 
 const Header = () => {
+    // import the context information.
     const { state: {loggedIn}, actions:{}} = useContext(BlogContext);
     
+    // the header renders the logo VV, and Home & Login/Logout buttons.
     return (
         <HeaderWrapper>
         <Span>V V</Span>

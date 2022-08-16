@@ -79,8 +79,7 @@ width: auto;
 height: 30vh;
 }
 
-  input {
-    
+  input { 
     
     border: 2px solid var(--color-lightblue);
     border-radius: 4px;

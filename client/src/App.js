@@ -7,8 +7,10 @@ import { BlogContext } from "./components/BlogContext";
 
 
 const App = () => {
+  // import all the context information
   const { state: {blogData, blogComments}, actions:{getBlogData, getBlogComments}} = useContext(BlogContext);
 
+  // on mount get the blog and comments data from the server
   useEffect(()=>{
     getBlogData();
     getBlogComments();        
@@ -16,6 +18,8 @@ const App = () => {
   
   return (
     <Wrapper>
+      {/* if the blog data and comment is still null
+      then load the circular progress otherwise render the data */}
       {blogData === null && <div><CircularProgress></CircularProgress></div>}
       {blogData !== null && <Blog></Blog>}
       {blogComments === null && <div><CircularProgress></CircularProgress></div>}
