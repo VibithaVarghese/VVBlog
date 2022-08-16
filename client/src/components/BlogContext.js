@@ -3,6 +3,19 @@ import { createContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 export const BlogContext = createContext(null);
 
+/*
+    This is the initial state of the state variables.
+    each one is explained below.
+    blogData => contains all the statsi text of the blog from Mongo DB 
+    blogComments => comments all the user comments so far and its from Mongo DB
+    newComment => contains the data about te newly entered comment in the website
+    replyComment => contains thte information about newly entered reply in website
+    user => contains the information about the user logged in in the login page of the website
+    loggedIn => Contains true or false value. If the user successfully logged in then value is true.
+    loginFailure => contains the value true or false. If the user failed to loggin then the value is true.
+    error => Any error in the page, for example the comment field is empty, then the error conatisn the specific 
+    error message.
+*/
 const initialState = {
     blogData: null,
     blogComments: null,
@@ -14,10 +27,17 @@ const initialState = {
     error: "",
 }
 
+/*
+    This reducer function performs all the logic in the application.
+    detailed comments are given for each logic in the reducer.
+*/
 const reducer = (state, action) => {
     switch(action.type){
         /*
             get the user login infomation from the server.
+            Here the name can be "user" or "pwd".
+            Value filed conatins the real user name and password entered 
+            in the filed of username & password inputs.
         */
         case "get_user_data": {
             let name = action.name;
@@ -29,8 +49,11 @@ const reducer = (state, action) => {
         }  
 
         /*
-             "replyName": "SomeOne More funny",
-                "reply": "You are welcome"
+             The new comment that need to POST to the server is formed here.
+             newComment contains the comment, name, date, replyName, reply filed.
+             When a new comment is posted initially the replyName and reply are given as
+             empty. action.name can have two values which are "name", "comment".
+             date id the current date and time when the user post the comment.
         */
         case "create_comment": {
             return ( {
@@ -39,7 +62,13 @@ const reducer = (state, action) => {
             })
         }
 
-        // when the login is successful change the state variable to true
+        /* 
+            when the login is successful change the state variable loggedIn to true.
+            change the loginFailure to false when loggin is successful.
+            This variable is used to conditionaly render the reply button , delete button for each comment
+            once the login is success.
+            This message also helps to render the successfully logged in message on the login page. 
+        */
         case "login_sucess": {
             return ({
                 ...state,
@@ -48,7 +77,15 @@ const reducer = (state, action) => {
             })
         }
 
-        // when login is not successful make the state variable true 
+        /* 
+            when login is not successful make the state loginFailure variable true
+            When login is not successful make the state loggedIn variable false.
+            LoginFailure state is used in the loggin page to show the 
+            error message that user is not using valid credentials.
+            LoggedIn variable is used to show the admin login features like replay and delete 
+            button, reply text area etc.
+
+        */
         case "login_failed": {
             return ({
                 ...state,
@@ -57,6 +94,12 @@ const reducer = (state, action) => {
             })
         }
 
+        /*
+            This case executes when user logged out .
+            So this case sets back the loggedIn variable to false so that
+            the reply text area, reply button and delete button will hide.
+            It also set the user variable back to null.
+        */
         case "logout": {
             return ({
                 ...state,
@@ -65,6 +108,12 @@ const reducer = (state, action) => {
             })
         }
 
+        /*
+            This case asignes the blog data from the action to the state blogData.
+            only blog data need to be the changed, so the spread the state variable
+            in order to retain the rest of the state variables.
+            This blog data is called in the blog page to render the blog data on the website.
+        */
         case "get_blog_data": {
             return ({
                 ...state,
@@ -73,6 +122,9 @@ const reducer = (state, action) => {
 
         }
 
+        /*
+            
+        */
         case "get_blog_comments": {
             return({
                 ...state,
